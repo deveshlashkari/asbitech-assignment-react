@@ -1,30 +1,49 @@
 import { z } from "zod";
 import { parseISO, isValid, isAfter, isEqual } from "date-fns";
 import { NUMBER_PATTERNS } from "../constants/regex";
+import {
+  VALIDATION_LIMITS,
+  VALIDATION_MESSAGES,
+} from "../constants/validation";
 
 export const lifeEventSchema = z
   .object({
     employerName: z
       .string()
-      .min(1, "Employer name is required")
-      .min(2, "Employer name must be at least 2 characters")
-      .max(100, "Employer name must be less than 100 characters"),
+      .min(
+        VALIDATION_LIMITS.REQUIRED_FIELD_MIN,
+        VALIDATION_MESSAGES.EMPLOYER_NAME.REQUIRED
+      )
+      .min(
+        VALIDATION_LIMITS.EMPLOYER_NAME.MIN_LENGTH,
+        VALIDATION_MESSAGES.EMPLOYER_NAME.MIN_LENGTH
+      )
+      .max(
+        VALIDATION_LIMITS.EMPLOYER_NAME.MAX_LENGTH,
+        VALIDATION_MESSAGES.EMPLOYER_NAME.MAX_LENGTH
+      ),
 
     annualGrossIncome: z
       .string()
-      .min(1, "Annual gross income is required")
+      .min(
+        VALIDATION_LIMITS.REQUIRED_FIELD_MIN,
+        VALIDATION_MESSAGES.ANNUAL_GROSS_INCOME.REQUIRED
+      )
       .refine((val) => {
         const numericValue = val.replace(NUMBER_PATTERNS.REMOVE_COMMAS, "");
         return !isNaN(Number(numericValue)) && Number(numericValue) > 0;
-      }, "Please enter a valid income amount"),
+      }, VALIDATION_MESSAGES.ANNUAL_GROSS_INCOME.INVALID),
 
     employmentStartDate: z
       .string()
-      .min(1, "Employment start date is required")
+      .min(
+        VALIDATION_LIMITS.REQUIRED_FIELD_MIN,
+        VALIDATION_MESSAGES.EMPLOYMENT_START_DATE.REQUIRED
+      )
       .refine((val) => {
         const date = parseISO(val);
         return isValid(date);
-      }, "Please enter a valid start date"),
+      }, VALIDATION_MESSAGES.EMPLOYMENT_START_DATE.INVALID),
 
     employmentEndDate: z
       .string()
@@ -33,11 +52,14 @@ export const lifeEventSchema = z
         if (!val) return true;
         const date = parseISO(val);
         return isValid(date);
-      }, "Please enter a valid end date"),
+      }, VALIDATION_MESSAGES.EMPLOYMENT_END_DATE.INVALID),
 
     notes: z
       .string()
-      .max(500, "Notes must be less than 500 characters")
+      .max(
+        VALIDATION_LIMITS.NOTES.MAX_LENGTH,
+        VALIDATION_MESSAGES.NOTES.MAX_LENGTH
+      )
       .optional(),
   })
   .refine(
@@ -50,7 +72,7 @@ export const lifeEventSchema = z
       return true;
     },
     {
-      message: "Employment end date must be after start date",
+      message: VALIDATION_MESSAGES.EMPLOYMENT_END_DATE.AFTER_START,
       path: ["employmentEndDate"],
     }
   );

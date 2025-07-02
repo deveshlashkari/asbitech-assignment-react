@@ -6,11 +6,11 @@ interface CustomTextFieldProps extends Omit<TextFieldProps, "variant"> {
   variant?: "outlined" | "filled" | "standard";
 }
 
-const CustomTextField: React.FC<CustomTextFieldProps> = ({
+function CustomTextField({
   variant = "outlined",
   sx,
   ...props
-}) => {
+}: CustomTextFieldProps) {
   return (
     <TextField
       variant={variant}
@@ -39,6 +39,6 @@ const CustomTextField: React.FC<CustomTextFieldProps> = ({
       {...props}
     />
   );
-};
+}
 
 export default CustomTextField;
