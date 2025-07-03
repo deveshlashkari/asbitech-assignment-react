@@ -1,6 +1,5 @@
 import { Box, Button, Typography, Grid, CircularProgress } from "@mui/material";
 import FormField from "../components/FormField";
-import FormFieldIncome from "../components/FormFieldIncome";
 import { formatCurrency } from "../utils/numberUtils";
 import { useLifeEventForm } from "../hooks/useLifeEventForm";
 
@@ -60,11 +59,12 @@ function LifeEventForm() {
               label="Employer's Name"
             />
 
-            <FormFieldIncome
+            <FormField
               name="annualGrossIncome"
               control={control}
               errors={errors}
               label="Annual Gross Income (Amount)"
+              variant="currency"
             />
 
             <FormField
