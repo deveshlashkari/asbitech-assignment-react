@@ -18,19 +18,19 @@ function CustomTextField({
       sx={{
         "& .MuiOutlinedInput-root": {
           backgroundColor: "grey.50",
-          "&.Mui-focused .MuiOutlinedInput-notchedOutline": {
+          "&.Mui-focused:not(.Mui-error) .MuiOutlinedInput-notchedOutline": {
             borderColor: "text.primary",
           },
         },
         "& .MuiFilledInput-root": {
           backgroundColor: "grey.50",
-          "&.Mui-focused": {
+          "&.Mui-focused:not(.Mui-error)": {
             borderColor: "text.primary",
           },
         },
         "& .MuiInputLabel-root": {
           fontWeight: "bold",
-          "&.Mui-focused": {
+          "&.Mui-focused:not(.Mui-error)": {
             color: "text.primary",
           },
         },

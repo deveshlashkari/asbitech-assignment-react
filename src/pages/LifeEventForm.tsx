@@ -56,6 +56,9 @@ function LifeEventForm() {
               name="employerName"
               control={control}
               errors={errors}
+              textFieldProps={{
+                autoFocus: true,
+              }}
               label="Employer's Name"
             />
 

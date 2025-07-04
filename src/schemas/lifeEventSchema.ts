@@ -31,8 +31,12 @@ export const lifeEventSchema = z
       )
       .refine((val) => {
         const numericValue = val.replace(NUMBER_PATTERNS.REMOVE_COMMAS, "");
-        return !isNaN(Number(numericValue)) && Number(numericValue) > 0;
-      }, VALIDATION_MESSAGES.ANNUAL_GROSS_INCOME.INVALID),
+        return !isNaN(Number(numericValue)) && isFinite(Number(numericValue));
+      }, VALIDATION_MESSAGES.ANNUAL_GROSS_INCOME.INVALID_FORMAT)
+      .refine((val) => {
+        const numericValue = val.replace(NUMBER_PATTERNS.REMOVE_COMMAS, "");
+        return Number(numericValue) > 0;
+      }, VALIDATION_MESSAGES.ANNUAL_GROSS_INCOME.MUST_BE_GREATER_THAN_ZERO),
 
     employmentStartDate: z
       .string()

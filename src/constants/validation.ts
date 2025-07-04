@@ -23,7 +23,8 @@ export const VALIDATION_MESSAGES = {
   },
   ANNUAL_GROSS_INCOME: {
     REQUIRED: "Annual gross income is required",
-    INVALID: "Please enter a valid income amount",
+    INVALID_FORMAT: "Please enter a valid number format",
+    MUST_BE_GREATER_THAN_ZERO: "Income amount must be greater than $0",
   },
   EMPLOYMENT_START_DATE: {
     REQUIRED: "Employment start date is required",

@@ -34,18 +34,6 @@ export const parseFormattedNumber = (formattedValue: string): string => {
 };
 
 /**
- * Validates if a string represents a valid number (with or without commas)
- * @param value - The value to validate
- * @returns True if valid number, false otherwise
- */
-export const isValidNumber = (value: string): boolean => {
-  if (!value) return true;
-
-  const cleanValue = parseFormattedNumber(value);
-  return !isNaN(Number(cleanValue)) && isFinite(Number(cleanValue));
-};
-
-/**
  * Calculates the total income earned during employment period
  * @param annualGrossIncome - Annual gross income as formatted string with commas
  * @param employmentStartDate - Start date of employment in ISO format
@@ -73,8 +61,15 @@ export const calculateTotalIncome = (
       return 0;
     }
 
+    if (endDate < startDate) {
+      return 0;
+    }
+
     const totalDays = differenceInDays(endDate, startDate);
-    const yearsWorked = totalDays / 365.25;
+    // Add 1 to make end date inclusive for the calculation
+    const actualDaysWorked = totalDays + 1;
+    // Using 365.25 to account for leap years (average days per year over a 4-year cycle)
+    const yearsWorked = actualDaysWorked / 365.25;
 
     const annualIncome =
       parseFloat(parseFormattedNumber(annualGrossIncome)) || 0;

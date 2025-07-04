@@ -55,6 +55,7 @@ export function useLifeEventForm() {
       const formData = {
         ...data,
         totalIncome: formatCurrency(totalIncome),
+        annualGrossIncome: formatCurrency(Number(annualGrossIncome)),
       };
 
       const fileContent = JSON.stringify(formData, null, 2);
